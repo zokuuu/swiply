@@ -2,10 +2,10 @@
 
 > Swipe right to like, swipe left to pass — discover amazing products in a fun, Tinder-like interface!
 
-[![React Native](https://img.shields.io/badge/React_Native-0.74-61DAFB?logo=react)](https://reactnative.dev)
-[![Expo](https://img.shields.io/badge/Expo-51-000020?logo=expo)](https://expo.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?logo=typescript)](https://www.typescriptlang.org)
-[![Zustand](https://img.shields.io/badge/Zustand-4.5-443e38?logo=react)](https://github.com/pmndrs/zustand)
+[![React Native](https://img.shields.io/badge/React_Native-0.81-61DAFB?logo=react)](https://reactnative.dev)
+[![Expo](https://img.shields.io/badge/Expo-54-000020?logo=expo)](https://expo.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org)
+[![Zustand](https://img.shields.io/badge/Zustand-5.0-443e38?logo=react)](https://github.com/pmndrs/zustand)
 
 ## 📱 Screenshots
 
@@ -27,48 +27,50 @@
 
 ```mermaid
 graph TD
-    A[React Native 0.74] --> B[Expo 51]
-    A --> C[TypeScript 5.3]
-    A --> D[Zustand 4.5]
-    D --> E[AsyncStorage]
-    A --> F[React Navigation 6]
-    A --> G[React Native Deck Swiper]
+    A[React Native 0.81] --> B[Expo SDK 54]
+    A --> C[TypeScript 5.9]
+    A --> D[Zustand 5.0]
+    D --> E[AsyncStorage 2.2]
+    A --> F[Expo Router 6.0]
+    A --> G[React Native Deck Swiper 2.0]
 ```
 
 ### Core Technologies
-- **React Native 0.74** + **Expo 51** — Cross-platform mobile development
-- **TypeScript 5.3** — Type safety and better developer experience
-- **Zustand 4.5** — Lightweight state management with persistence
-- **Expo Router 3.5** — File-based navigation
-- **React Native Deck Swiper** — Smooth card swiping animations
+- **React Native 0.81** + **Expo SDK 54** — Cross-platform mobile development
+- **TypeScript 5.9** — Type safety and better developer experience
+- **Zustand 5.0** — Lightweight state management with persistence
+- **Expo Router 6.0** — File-based navigation
+- **React Native Deck Swiper 2.0** — Smooth card swiping animations
+- **React Native Reanimated 4.1** — Smooth 60fps animations
+- **React Native Gesture Handler 2.28** — Native-driven gesture interactions
 
-## 🏗️ Architecture
+## Architecture
 
 ```
-📦 src
-├── 📱 app/                 # Expo Router pages
-│   ├── 🏠 index.tsx        # Main swipe screen
-│   ├── ❤️ likes.tsx        # Liked items
-│   ├── 👤 profile.tsx      # User profile
-│   ├── 📦 item/[id].tsx    # Product details
-│   └── 🏪 seller/[id].tsx  # Seller profile
-├── 🧩 components/           # Reusable components
-│   ├── 🃏 Card.tsx         # Product card
-│   ├── 🦶 GlobalFooter.tsx # Bottom navigation
-│   └── 🎨 ThemeToggle.tsx  # Dark/light toggle
-├── 🗂️ store/                # Zustand stores
-│   └── 📋 useLikesStore.ts # Likes & history
-├── 🎭 styles/               # Styling
-│   ├── 🎨 colors.ts        # Theme colors
+src
+├── app/                 # Expo Router pages
+│   ├── index.tsx        # Main swipe screen
+│   ├── likes.tsx        # Liked items
+│   ├── profile.tsx      # User profile
+│   ├── item/[id].tsx    # Product details
+│   └── seller/[id].tsx  # Seller profile
+├── components/           # Reusable components
+│   ├── Card.tsx         # Product card
+│   ├── GlobalFooter.tsx # Bottom navigation
+│   └── ThemeToggle.tsx  # Dark/light toggle
+├── store/                # Zustand stores
+│   └── useLikesStore.ts # Likes & history
+├── styles/               # Styling
+│   ├── colors.ts        # Theme colors
 │   └── *.styles.ts         # Component styles
-└── 📊 data/                 # Mock data
-    └── 📁 items.ts          # Products & sellers
+└── data/                 # Mock data
+    └── items.ts          # Products & sellers
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
-- Node.js 18+
+- Node.js 25+
 - Expo CLI
 - iOS Simulator / Android Emulator or physical device with Expo Go
 
@@ -102,9 +104,9 @@ Swiply transforms the boring e-commerce browsing experience into an engaging, ga
 - 🚀 **Startups** wanting to test product-market fit quickly
 - 💼 **Freelancers** needing a modern, full-featured portfolio piece
 
-## 🔮 Future Plans
+## Future Plans
 
-### Backend Migration to Go 🚀
+### Backend Migration to Go
 
 We're planning to scale Swiply with a high-performance backend:
 
@@ -119,58 +121,25 @@ type SwiplyBackend struct {
 ```
 
 **Planned tech stack:**
-- **Golang** — Blazing fast performance with goroutines
-- **PostgreSQL** — Robust relational data storage
-- **GraphQL** — Flexible API layer
-- **gRPC** — Efficient microservices communication
-- **Docker + Kubernetes** — Scalable deployment
+- **Golang** - Blazing fast performance with goroutines
+- **PostgreSQL** - Robust relational data storage
+- **GraphQL** - Flexible API layer
+- **gRPC** - Efficient microservices communication
+- **Docker + Kubernetes** - Scalable deployment
 
 ### Upcoming Features
-- 🔐 **Authentication** — Sign in with Google/Apple
-- 💬 **Real-time chat** — Between buyers and sellers
-- 🗺️ **Geolocation** — Find products near you
-- 📸 **Image upload** — Sellers can add multiple photos
-- ⭐ **Reviews & ratings** — After purchase completion
+- 🔐 **Authentication** - Sign in with Google/Apple
+- 💬 **Real-time chat** - Between buyers and sellers
+- 🗺️ **Geolocation** - Find products near you
+- 📸 **Image upload** - Sellers can add multiple photos
+- ⭐ **Reviews & ratings** - After purchase completion
 
-## 🛡️ Security Features
-
-Current security measures:
-- ✅ Hermes bytecode compilation
-- ✅ API keys protection with react-native-keys
-- ✅ Code obfuscation
-- ✅ RASP protection with freeRASP
-- ✅ License and copyright protection
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to:
-- 🐛 Report bugs
-- 💡 Suggest new features
-- 🔧 Submit pull requests
 
 ## 📄 License
 
 MIT License
 
-Copyright (c) 2026 [Your Name]
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Copyright (c) 2026 [Nikita Kasymov]
 
 ---
 
