@@ -128,17 +128,6 @@ src/
 
 ## License
 
-MIT License — Copyright (c) 2026 Nikita Kasymov
+MIT
 
----
 
-<div align="center">
-  <br>
-  <sub>
-    Built with
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/apple.svg" width="14" height="14" style="vertical-align: middle; filter: brightness(0) invert(1);"> macOS
-    with ❤️
-  </sub>
-  <br>
-  <sub>✨ Happy Swiping! ✨</sub>
-</div>
