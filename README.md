@@ -147,9 +147,9 @@ Copyright (c) 2026 [Nikita Kasymov]
   <br>
   <sub>
     Built with 
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/neovim.svg" width="14" height="14" style="vertical-align: middle;"> Neovim 
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@5.24.0/icons/vim.svg" width="14" height="14" style="vertical-align: middle; filter: brightness(0) invert(1);"> Neovim 
     on 
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/apple.svg" width="14" height="14" style="vertical-align: middle;"> macOS 
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/apple.svg" width="14" height="14" style="vertical-align: middle; filter: brightness(0) invert(1);"> macOS 
     with ❤️
   </sub>
   <br>
