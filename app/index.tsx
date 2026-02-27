@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Alert, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, StyleSheet, Platform } from 'react-native';
 import Svg, {
   Defs, LinearGradient, Stop,
   Rect, Path, Circle, Text as SvgText,
@@ -13,6 +13,12 @@ import { ITEMS, Item } from '../data/items';
 import { homeStyles } from '../styles/home.styles';
 import { useTheme } from '../styles/ThemeContext';
 import { useLikesStore } from '../store/useLikesStore';
+
+const APP_FONT = Platform.select({
+  ios: 'Avenir Next',
+  android: 'sans-serif-medium',
+  default: 'System',
+});
 
 function SwiplyLogo({ primary, accent }: { primary: string; accent: string }) {
   return (
@@ -38,7 +44,7 @@ function SwiplyLogo({ primary, accent }: { primary: string; accent: string }) {
       <Circle cx="15" cy="50" r="2.5"
         fill="none" stroke="#55556A" strokeWidth="1.5" />
       <SvgText x="62" y="50"
-        fontFamily="Helvetica Neue" fontSize="34"
+        fontFamily={APP_FONT} fontSize="34"
         fontWeight="800" letterSpacing="-1"
         fill={primary}>
         swiply
@@ -89,16 +95,22 @@ export default function HomeScreen() {
       <View style={[homeStyles.header, {
         backgroundColor: colors.cardBackground,
         borderBottomColor: colors.border,
-      }]}>
-        <TouchableOpacity style={[styles.iconBtn, { borderColor: colors.border }]} activeOpacity={0.7}>
-          <Ionicons name="menu-outline" size={20} color={colors.textSecondary} />
-        </TouchableOpacity>
+      }]}> 
+        <View style={styles.headerSide}>
+          <TouchableOpacity style={[styles.iconBtn, { borderColor: colors.border }]} activeOpacity={0.7}>
+            <Ionicons name="menu-outline" size={20} color={colors.textSecondary} />
+          </TouchableOpacity>
+        </View>
 
-        <SwiplyLogo primary={colors.primary} accent={colors.accent} />
+        <View style={styles.headerCenter}>
+          <SwiplyLogo primary={colors.primary} accent={colors.accent} />
+        </View>
 
-        <TouchableOpacity style={[styles.iconBtn, { borderColor: colors.border }]} activeOpacity={0.7}>
-          <Ionicons name="notifications-outline" size={20} color={colors.textSecondary} />
-        </TouchableOpacity>
+        <View style={styles.headerSide}>
+          <TouchableOpacity style={[styles.iconBtn, { borderColor: colors.border }]} activeOpacity={0.7}>
+            <Ionicons name="notifications-outline" size={20} color={colors.textSecondary} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.counterRow}>
@@ -214,6 +226,14 @@ const styles = StyleSheet.create({
     borderRadius: 10, borderWidth: 1,
     justifyContent: 'center', alignItems: 'center',
   },
+  headerSide: {
+    width: 52,
+    alignItems: 'center',
+  },
+  headerCenter: {
+    flex: 1,
+    alignItems: 'center',
+  },
 
   counterRow: {
     height: 32,
@@ -225,6 +245,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 1.5,
     textTransform: 'uppercase',
+    fontFamily: APP_FONT,
   },
 
   overlayCircle: {
@@ -249,22 +270,27 @@ const styles = StyleSheet.create({
   hint: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: 4,
-    width: 70,
+    flex: 1,
   },
   hintLabel: {
     fontSize: 12,
     fontWeight: '700',
     letterSpacing: 0.5,
+    fontFamily: APP_FONT,
   },
   hintCenter: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
     gap: 4,
   },
   hintCenterText: {
     fontSize: 10,
     fontWeight: '500',
     letterSpacing: 0.2,
+    fontFamily: APP_FONT,
   },
 });
