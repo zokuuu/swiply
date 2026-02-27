@@ -7,63 +7,55 @@ export default function ThemeToggle() {
   const { theme, toggleTheme, colors } = useTheme();
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.cardBackground }]}>
+    <View style={[styles.container, {
+      backgroundColor: colors.cardBackground,
+      borderColor: colors.border,
+    }]}>
       <Text style={[styles.title, { color: colors.text }]}>Appearance</Text>
 
-      <View style={styles.optionsContainer}>
-        <TouchableOpacity
-          style={[
-            styles.option,
-            theme === 'light' && styles.optionActive,
-            { borderColor: colors.border }
-          ]}
-          onPress={() => theme !== 'light' && toggleTheme()}
-          activeOpacity={0.7}
-        >
-          <View style={[styles.iconCircle, { backgroundColor: '#faf9ff' }]}>
-            <Ionicons
-              name="sunny"
-              size={24}
-              color={theme === 'light' ? colors.primary : colors.gray}
-            />
-          </View>
-          <Text style={[
-            styles.optionText,
-            { color: theme === 'light' ? colors.primary : colors.textSecondary }
-          ]}>
-            Light
-          </Text>
-          {theme === 'light' && (
-            <Ionicons name="checkmark-circle" size={20} color={colors.primary} style={styles.checkIcon} />
-          )}
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.option,
-            theme === 'dark' && styles.optionActive,
-            { borderColor: colors.border }
-          ]}
-          onPress={() => theme !== 'dark' && toggleTheme()}
-          activeOpacity={0.7}
-        >
-          <View style={[styles.iconCircle, { backgroundColor: '#1a1a2e' }]}>
-            <Ionicons
-              name="moon"
-              size={24}
-              color={theme === 'dark' ? colors.primary : colors.gray}
-            />
-          </View>
-          <Text style={[
-            styles.optionText,
-            { color: theme === 'dark' ? colors.primary : colors.textSecondary }
-          ]}>
-            Dark
-          </Text>
-          {theme === 'dark' && (
-            <Ionicons name="checkmark-circle" size={20} color={colors.primary} style={styles.checkIcon} />
-          )}
-        </TouchableOpacity>
+      <View style={styles.options}>
+        {(['light', 'dark'] as const).map((t) => {
+          const isActive = theme === t;
+          const isLight = t === 'light';
+          return (
+            <TouchableOpacity
+              key={t}
+              style={[
+                styles.option,
+                {
+                  borderColor: isActive ? colors.primary : colors.border,
+                  backgroundColor: isActive ? colors.primary + '12' : 'transparent',
+                  borderWidth: isActive ? 2 : 1,
+                },
+              ]}
+              onPress={() => !isActive && toggleTheme()}
+              activeOpacity={0.7}
+            >
+              {isActive && (
+                <View style={[styles.checkWrap, { backgroundColor: colors.primary }]}>
+                  <Ionicons name="checkmark" size={10} color="#fff" />
+                </View>
+              )}
+              <View style={[
+                styles.iconCircle,
+                { backgroundColor: isLight ? '#F4F4FB' : '#0D0D14' },
+              ]}>
+                <Ionicons
+                  name={isLight ? 'sunny-outline' : 'moon-outline'}
+                  size={22}
+                  color={isActive ? colors.primary : colors.textSecondary}
+                />
+              </View>
+              <Text style={[
+                styles.optionLabel,
+                { color: isActive ? colors.primary : colors.textSecondary },
+                isActive && { fontWeight: '700' },
+              ]}>
+                {isLight ? 'Light' : 'Dark'}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
     </View>
   );
@@ -72,52 +64,50 @@ export default function ThemeToggle() {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 20,
-    marginTop: 20,
+    marginTop: 16,
     padding: 16,
-    borderRadius: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
+    borderRadius: 16,
+    borderWidth: 1,
   },
   title: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 16,
+    fontSize: 13,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+    marginBottom: 14,
   },
-  optionsContainer: {
+  options: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    gap: 10,
   },
   option: {
-    alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    borderWidth: 1,
     flex: 1,
-    marginHorizontal: 5,
+    alignItems: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+    borderRadius: 12,
     position: 'relative',
   },
-  optionActive: {
-    borderWidth: 2,
+  checkWrap: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   iconCircle: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 8,
   },
-  optionText: {
-    fontSize: 14,
+  optionLabel: {
+    fontSize: 13,
     fontWeight: '500',
-  },
-  checkIcon: {
-    position: 'absolute',
-    top: 5,
-    right: 5,
   },
 });

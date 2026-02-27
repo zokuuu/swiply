@@ -1,53 +1,77 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 
-export const lightColors = {
-  primary: '#8c76b3',
-  primaryLight: '#b19cd9',
-  primaryDark: '#6b5494',
-  accent: '#ffb6c1',
-  accentLight: '#ffe4e9',
-  background: '#faf9ff',
-  cardBackground: '#ffffff',
-  white: '#ffffff',
-  black: '#2d2d2d',
-  gray: '#9a9a9a',
-  lightGray: '#e8e6f0',
-  success: '#8bc34a',
-  error: '#ff6b6b',
-  warning: '#ffd54f',
-  text: '#2d2d2d',
-  textSecondary: '#9a9a9a',
-  border: '#e8e6f0',
-  shadow: '#6b5494',
+// ─── DARK THEME — "Obsidian Market" ───────────────────────────────────────────
+export const darkColors = {
+  primary: '#6C8EFF',
+  primaryLight: '#8FA8FF',
+  primaryDark: '#4B6EE8',
+
+  accent: '#F5A623',
+  accentLight: '#F7C26B',
+  accentDark: '#D4891A',
+
+  background: '#0D0D14',
+  cardBackground: '#13131F',
+  surface: '#13131F',
+  surfaceElevated: '#1C1C2E',
+
+  white: '#13131F',
+  black: '#E8E8F0',
+
+  text: '#E8E8F0',
+  textSecondary: '#8888AA',
+  textTertiary: '#55556A',
+
+  border: '#252540',
+  shadow: '#000000',
+
+  lightGray: '#252540',
+  gray: '#8888AA',
+
+  success: '#4ADE80',
+  error: '#FF5E6D',
+  warning: '#F5A623',
 };
 
-export const darkColors = {
-  primary: '#b19cd9',
-  primaryLight: '#d4c2f0',
-  primaryDark: '#8c76b3',
-  accent: '#ffb6c1',
-  accentLight: '#4a3f5a',
-  background: '#1a1a2e',
-  cardBackground: '#2d2d44',
-  white: '#2d2d44',
-  black: '#f0f0f0',
-  gray: '#a0a0a0',
-  lightGray: '#3d3d5c',
-  success: '#8bc34a',
-  error: '#ff6b6b',
-  warning: '#ffd54f',
-  text: '#f0f0f0',
-  textSecondary: '#a0a0a0',
-  border: '#3d3d5c',
-  shadow: '#000000',
+// ─── LIGHT THEME — "Pearl" ─────────────────────────────────────────────────────
+export const lightColors = {
+  primary: '#4B6EE8',
+  primaryLight: '#6C8EFF',
+  primaryDark: '#3451C7',
+
+  accent: '#F5A623',
+  accentLight: '#FDE8BF',
+  accentDark: '#D4891A',
+
+  background: '#F4F4FB',
+  cardBackground: '#FFFFFF',
+  surface: '#FFFFFF',
+  surfaceElevated: '#EEEEF8',
+
+  white: '#FFFFFF',
+  black: '#0D0D14',
+
+  text: '#1A1A2E',
+  textSecondary: '#6666AA',
+  textTertiary: '#AAAACC',
+
+  border: '#DDDDF0',
+  shadow: '#3451C7',
+
+  lightGray: '#DDDDF0',
+  gray: '#6666AA',
+
+  success: '#22C55E',
+  error: '#EF4444',
+  warning: '#F5A623',
 };
 
 type ThemeType = 'light' | 'dark';
 
 interface ThemeContextType {
   theme: ThemeType;
-  colors: typeof lightColors;
+  colors: typeof darkColors;
   toggleTheme: () => void;
   setTheme: (theme: ThemeType) => void;
 }
@@ -56,7 +80,8 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const systemColorScheme = useColorScheme();
-  const [theme, setTheme] = useState<ThemeType>('light');
+  // Default to dark for premium experience
+  const [theme, setTheme] = useState<ThemeType>('dark');
 
   useEffect(() => {
     if (systemColorScheme === 'dark' || systemColorScheme === 'light') {
@@ -65,10 +90,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [systemColorScheme]);
 
   const toggleTheme = () => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
   };
 
-  const colors = theme === 'light' ? lightColors : darkColors;
+  const colors = theme === 'dark' ? darkColors : lightColors;
 
   return (
     <ThemeContext.Provider value={{ theme, colors, toggleTheme, setTheme }}>

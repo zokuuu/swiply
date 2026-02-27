@@ -10,54 +10,22 @@ export default function Layout() {
         <Stack
           screenOptions={{
             headerStyle: {
-              backgroundColor: '#ffffff',
+              backgroundColor: '#13131F',
             },
-            headerTintColor: '#8c76b3',
+            headerTintColor: '#6C8EFF',
             headerTitleStyle: {
-              fontWeight: '600',
-              fontSize: 18,
+              fontWeight: '700',
+              fontSize: 16,
+              letterSpacing: 0.5,
             },
             headerShadowVisible: false,
           }}
         >
-          <Stack.Screen
-            name="index"
-            options={{
-              headerShown: false,
-            }}
-          />
-
-          <Stack.Screen
-            name="item/[id]"
-            options={{
-              headerShown: false,
-            }}
-          />
-
-          <Stack.Screen
-            name="seller/[id]"
-            options={{
-              headerShown: false,
-            }}
-          />
-
-          <Stack.Screen
-            name="likes"
-            options={{
-              title: 'Likes',
-              headerBackTitle: 'Back',
-              presentation: 'card',
-            }}
-          />
-
-          <Stack.Screen
-            name="profile"
-            options={{
-              title: 'Profile',
-              headerBackTitle: 'Back',
-              presentation: 'card',
-            }}
-          />
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="item/[id]" options={{ headerShown: false }} />
+          <Stack.Screen name="seller/[id]" options={{ headerShown: false }} />
+          <Stack.Screen name="likes" options={{ headerShown: false }} />
+          <Stack.Screen name="profile" options={{ headerShown: false }} />
         </Stack>
       </ThemeProvider>
     </GestureHandlerRootView>
@@ -65,7 +33,5 @@ export default function Layout() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: { flex: 1 },
 });

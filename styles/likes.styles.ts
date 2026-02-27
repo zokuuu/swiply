@@ -9,25 +9,27 @@ export const likesStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 50,
-    paddingBottom: 15,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    paddingTop: 54,
+    paddingBottom: 14,
+    borderBottomWidth: 1,
+    // backgroundColor & borderBottomColor inline
   },
   headerTitle: {
-    fontSize: 20,
-    fontWeight: '600',
+    fontSize: 18,
+    fontWeight: '800',
+    letterSpacing: 0.5,
   },
   backButton: {
     padding: 8,
+    borderRadius: 10,
+    borderWidth: 1,
+    // borderColor inline
   },
   clearButton: {
     padding: 8,
+    borderRadius: 10,
+    borderWidth: 1,
+    // borderColor inline (error/muted)
   },
   list: {
     padding: 16,
@@ -35,18 +37,20 @@ export const likesStyles = StyleSheet.create({
   itemCard: {
     flexDirection: 'row',
     borderRadius: 16,
-    marginBottom: 12,
+    marginBottom: 10,
     padding: 12,
+    borderWidth: 1,
+    // backgroundColor & borderColor inline
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
     alignItems: 'center',
   },
   itemImage: {
-    width: 80,
-    height: 80,
+    width: 76,
+    height: 76,
     borderRadius: 12,
   },
   itemInfo: {
@@ -55,17 +59,22 @@ export const likesStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   itemName: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
+    fontSize: 15,
+    fontWeight: '700',
+    marginBottom: 3,
   },
   itemPrice: {
     fontSize: 15,
-    fontWeight: '600',
-    marginBottom: 4,
+    fontWeight: '800',
+    marginBottom: 3,
+    // color inline (primary)
   },
   itemCategory: {
-    fontSize: 12,
+    fontSize: 11,
+    fontWeight: '600',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+    // color inline (textSecondary)
   },
   deleteButton: {
     padding: 8,
@@ -75,35 +84,32 @@ export const likesStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 40,
-    paddingTop: 100,
+    paddingTop: 80,
   },
   emptyIcon: {
     marginBottom: 20,
   },
   emptyTitle: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: '800',
     marginBottom: 10,
+    letterSpacing: 0.3,
   },
   emptyText: {
-    fontSize: 16,
+    fontSize: 14,
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: 32,
     lineHeight: 22,
   },
   swipeButton: {
-    paddingHorizontal: 30,
-    paddingVertical: 12,
-    borderRadius: 25,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,
+    paddingHorizontal: 32,
+    paddingVertical: 14,
+    borderRadius: 14,
+    // backgroundColor inline
   },
   swipeButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 15,
+    fontWeight: '700',
+    letterSpacing: 0.5,
   },
 });

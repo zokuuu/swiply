@@ -1,9 +1,10 @@
-import React, { useRef, useState } from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../styles/ThemeContext';
-import { cardStyles } from '../styles/card.styles';
+
+const { width, height } = Dimensions.get('window');
 
 interface CardProps {
   item?: {
@@ -17,11 +18,7 @@ interface CardProps {
     distance?: string;
     address?: string;
     delivery?: boolean;
-    paymentMethods?: {
-      card: boolean;
-      cash: boolean;
-      online?: boolean;
-    };
+    paymentMethods?: { card: boolean; cash: boolean; online?: boolean };
     features?: string[];
     seller: {
       id: string;
@@ -30,200 +27,198 @@ interface CardProps {
       rating: number;
       reviews: number;
       verified: boolean;
-      joinedDate?: string;
     };
   };
+}
+
+function Stars({ rating }: { rating: number }) {
+  const { colors } = useTheme();
+  return (
+    <View style={styles.starsRow}>
+      {[1, 2, 3, 4, 5].map(i => (
+        <Ionicons
+          key={i}
+          name={i <= Math.round(rating) ? 'star' : 'star-outline'}
+          size={12}
+          color={colors.accent}
+        />
+      ))}
+    </View>
+  );
+}
+
+function Avatar({ name, uri, color }: { name: string; uri: string; color: string }) {
+  const initial = name.charAt(0).toUpperCase();
+  const [failed, setFailed] = React.useState(false);
+
+  if (uri && !failed) {
+    return (
+      <Image
+        source={{ uri }}
+        style={[styles.avatarImg, { borderColor: color + '66' }]}
+        onError={() => setFailed(true)}
+      />
+    );
+  }
+  return (
+    <View style={[styles.avatarCircle, { backgroundColor: color + '33', borderColor: color + '66', borderWidth: 1 }]}>
+      <Text style={[styles.avatarText, { color }]}>{initial}</Text>
+    </View>
+  );
 }
 
 export default function Card({ item }: CardProps) {
   const { colors } = useTheme();
   const router = useRouter();
-  const scrollViewRef = useRef<ScrollView>(null);
-  const [isScrolling, setIsScrolling] = useState(false);
 
   if (!item) {
     return (
-      <View style={[cardStyles.card, { backgroundColor: colors.cardBackground }]}>
-        <View style={[cardStyles.image, { justifyContent: 'center', alignItems: 'center', backgroundColor: colors.lightGray }]}>
-          <Ionicons name="image-outline" size={50} color={colors.gray} />
-        </View>
-        <View style={[cardStyles.infoContainer, { backgroundColor: colors.cardBackground }]}>
-          <Text style={[cardStyles.name, { color: colors.text }]}>Loading...</Text>
+      <View style={[styles.card, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
+        <View style={[styles.image, { backgroundColor: colors.border }]} />
+        <View style={styles.info}>
+          <View style={[styles.skeletonLine, { width: '70%', backgroundColor: colors.border }]} />
+          <View style={[styles.skeletonLine, { width: '40%', backgroundColor: colors.border, marginTop: 6 }]} />
         </View>
       </View>
     );
   }
 
-  const handlePress = () => {
-    if (!isScrolling) {
-      router.push(`/item/${item.id}`);
-    }
-  };
-
-  const handleSellerPress = (e: any) => {
-    e.stopPropagation();
-    router.push(`/seller/${item.seller.id}`);
-  };
-
-  const handleScrollBegin = () => {
-    setIsScrolling(true);
-  };
-
-  const handleScrollEnd = () => {
-    setTimeout(() => setIsScrolling(false), 100);
-  };
-
   return (
-    <View style={[cardStyles.card, { backgroundColor: colors.cardBackground }]}>
-      <Image source={{ uri: item.image }} style={cardStyles.image} />
+    <TouchableOpacity
+      activeOpacity={0.95}
+      onPress={() => router.push(`/item/${item.id}`)}
+      style={[styles.card, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}
+    >
+      <Image source={{ uri: item.image }} style={styles.image} />
 
-      <View style={cardStyles.overlay}>
-        <View style={[cardStyles.categoryBadge, { backgroundColor: colors.primary + 'CC' }]}>
-          <Text style={cardStyles.categoryText}>{item.category}</Text>
+      <View style={styles.badgeWrap}>
+        <View style={[styles.badge, {
+          backgroundColor: colors.background + 'E8',
+          borderColor: colors.border,
+        }]}>
+          <Text style={[styles.badgeText, { color: colors.primary }]}>
+            {item.category.toUpperCase()}
+          </Text>
         </View>
       </View>
 
-      <ScrollView
-        ref={scrollViewRef}
-        style={[cardStyles.infoContainer, { backgroundColor: colors.cardBackground }]}
-        showsVerticalScrollIndicator={true}
-        bounces={true}
-        scrollEnabled={true}
-        nestedScrollEnabled={true}
-        onScrollBeginDrag={handleScrollBegin}
-        onScrollEndDrag={handleScrollEnd}
-        onMomentumScrollEnd={handleScrollEnd}
-      >
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={handlePress}
-        >
-          <View pointerEvents="auto">
-            <Text style={[cardStyles.name, { color: colors.text }]}>{item.name}</Text>
-            <Text style={[cardStyles.price, { color: colors.primary }]}>{item.price}</Text>
+      <View style={[styles.info, { backgroundColor: colors.cardBackground }]}>
 
-            {(item.distance || item.address) && (
-              <View style={cardStyles.locationContainer}>
-                {item.distance && (
-                  <View style={cardStyles.locationRow}>
-                    <Ionicons name="location-outline" size={16} color={colors.primary} />
-                    <Text style={[cardStyles.locationText, { color: colors.textSecondary }]}>
-                      {item.distance}
-                    </Text>
-                  </View>
-                )}
-                {item.address && (
-                  <View style={cardStyles.locationRow}>
-                    <Ionicons name="home-outline" size={16} color={colors.primary} />
-                    <Text style={[cardStyles.locationText, { color: colors.textSecondary }]}>
-                      {item.address}
-                    </Text>
-                  </View>
-                )}
-              </View>
-            )}
+        <Text style={[styles.name, { color: colors.text }]} numberOfLines={2}>
+          {item.name}
+        </Text>
 
-            <View style={cardStyles.sellerContainer}>
-              <TouchableOpacity
-                onPress={handleSellerPress}
-                style={cardStyles.sellerInfo}
-              >
-                <Image source={{ uri: item.seller.avatar }} style={cardStyles.sellerAvatar} />
-                <View style={cardStyles.sellerDetails}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={[cardStyles.sellerName, { color: colors.text }]}>{item.seller.name}</Text>
-                    {item.seller.verified && (
-                      <Ionicons name="checkmark-circle" size={14} color={colors.primary} style={{ marginLeft: 4 }} />
-                    )}
-                  </View>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Ionicons name="star" size={12} color="#FFD700" />
-                    <Text style={[cardStyles.sellerRating, { color: colors.textSecondary }]}>
-                      {item.seller.rating} ({item.seller.reviews})
-                    </Text>
-                  </View>
-                </View>
-                <Ionicons name="chevron-forward" size={18} color={colors.gray} />
-              </TouchableOpacity>
-            </View>
+        <Text style={[styles.price, { color: colors.primary }]}>
+          {item.price}
+        </Text>
 
-            <View style={[cardStyles.divider, { backgroundColor: colors.border }]} />
+        <View style={[styles.sellerRow, { borderTopColor: colors.border }]}>
+          <Avatar name={item.seller.name} uri={item.seller.avatar} color={colors.primary} />
 
-            <Text style={[cardStyles.sectionTitle, { color: colors.text }]}>Description</Text>
-            <Text style={[cardStyles.fullDescription, { color: colors.textSecondary }]}>
-              {item.fullDescription || item.description}
-            </Text>
+          <Text style={[styles.sellerName, { color: colors.text }]} numberOfLines={1}>
+            {item.seller.name}
+          </Text>
 
-            {item.features && item.features.length > 0 && (
-              <>
-                <Text style={[cardStyles.sectionTitle, { color: colors.text, marginTop: 16 }]}>
-                  Features
-                </Text>
-                <View style={cardStyles.featuresContainer}>
-                  {item.features.map((feature, index) => (
-                    <View key={index} style={[cardStyles.featureTag, { backgroundColor: colors.primaryLight }]}>
-                      <Text style={cardStyles.featureText}>{feature}</Text>
-                    </View>
-                  ))}
-                </View>
-              </>
-            )}
+          {item.seller.verified && (
+            <Ionicons name="checkmark-circle" size={14} color={colors.primary} />
+          )}
 
-            {item.delivery !== undefined && (
-              <>
-                <Text style={[cardStyles.sectionTitle, { color: colors.text, marginTop: 16 }]}>
-                  Delivery
-                </Text>
-                <View style={cardStyles.deliveryContainer}>
-                  <Ionicons
-                    name={item.delivery ? "checkmark-circle" : "close-circle"}
-                    size={20}
-                    color={item.delivery ? colors.success : colors.error}
-                  />
-                  <Text style={[cardStyles.deliveryText, { color: colors.textSecondary }]}>
-                    {item.delivery ? 'Delivery available' : 'Pick up'}
-                  </Text>
-                </View>
-              </>
-            )}
+          <Stars rating={item.seller.rating} />
+        </View>
 
-            {item.paymentMethods && (
-              <>
-                <Text style={[cardStyles.sectionTitle, { color: colors.text, marginTop: 16 }]}>
-                  Payment
-                </Text>
-                <View style={cardStyles.paymentContainer}>
-                  {item.paymentMethods.card && (
-                    <View style={[cardStyles.paymentBadge, { backgroundColor: colors.lightGray }]}>
-                      <Ionicons name="card-outline" size={16} color={colors.success} />
-                      <Text style={[cardStyles.paymentText, { color: colors.textSecondary }]}>Card</Text>
-                    </View>
-                  )}
-                  {item.paymentMethods.cash && (
-                    <View style={[cardStyles.paymentBadge, { backgroundColor: colors.lightGray }]}>
-                      <Ionicons name="cash-outline" size={16} color={colors.success} />
-                      <Text style={[cardStyles.paymentText, { color: colors.textSecondary }]}>Cash</Text>
-                    </View>
-                  )}
-                  {item.paymentMethods.online && (
-                    <View style={[cardStyles.paymentBadge, { backgroundColor: colors.lightGray }]}>
-                      <Ionicons name="globe-outline" size={16} color={colors.success} />
-                      <Text style={[cardStyles.paymentText, { color: colors.textSecondary }]}>Online</Text>
-                    </View>
-                  )}
-                </View>
-              </>
-            )}
-
-            <View style={cardStyles.hintContainer}>
-              <Ionicons name="hand-left-outline" size={20} color={colors.gray} />
-              <Text style={[cardStyles.hintText, { color: colors.gray }]}>
-                Swipe to select • Tap for details
-              </Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </ScrollView>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 }
+
+const styles = StyleSheet.create({
+  card: {
+    width: width * 0.88,
+    height: height * 0.56,
+    borderRadius: 20,
+    borderWidth: 1,
+    overflow: 'hidden',
+    alignSelf: 'center',
+  },
+
+  image: {
+    width: '100%',
+    height: '58%',
+    resizeMode: 'cover',
+  },
+
+  badgeWrap: {
+    position: 'absolute',
+    top: 12,
+    right: 12,
+  },
+  badge: {
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 20,
+    borderWidth: 1,
+  },
+  badgeText: {
+    fontSize: 10,
+    fontWeight: '700',
+    letterSpacing: 1,
+  },
+
+  info: {
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingTop: 14,
+    paddingBottom: 12,
+    justifyContent: 'space-between',
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: '800',
+    letterSpacing: -0.2,
+    lineHeight: 24,
+  },
+  price: {
+    fontSize: 24,
+    fontWeight: '800',
+    marginTop: 2,
+  },
+
+  sellerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    borderTopWidth: 1,
+    paddingTop: 10,
+  },
+  avatarImg: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    borderWidth: 1,
+  },
+  avatarCircle: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  avatarText: {
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  sellerName: {
+    fontSize: 13,
+    fontWeight: '600',
+    flex: 1,
+  },
+  starsRow: {
+    flexDirection: 'row',
+    gap: 1,
+  },
+
+  skeletonLine: {
+    height: 14,
+    borderRadius: 7,
+  },
+});
